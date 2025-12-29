@@ -25,7 +25,7 @@ const Userlogin = () => {
                 });
                 setTimeout(() => {
                     nav("/user/product");
-                },1000);
+                }, 1000);
             } else {
                 toast.error("Server Problem Please Try Again");
             }
@@ -33,7 +33,6 @@ const Userlogin = () => {
             toast.error("Invalid Email or Password");
         }
     }
-
     return (
         <div className="modern-login-container">
             <Toaster />
@@ -46,7 +45,7 @@ const Userlogin = () => {
                     <div className="toggle-content">
                         <h1>Hello, Friend!</h1>
                         <p>Register with your personal details to use all of site features</p>
-                         <p><b style={{color:"#FFD700"}}>If You Don't Register Click Register </b></p>
+                        <p><b style={{ color: "#FFD700" }}>If You Don't Register Click Register </b></p>
                         <button
                             className="ghost-btn"
                             onClick={() => nav("/user/register")}

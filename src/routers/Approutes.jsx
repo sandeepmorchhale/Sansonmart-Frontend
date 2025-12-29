@@ -42,8 +42,6 @@ const Approutes = () => {
             <Route path='/user/order' element={<UserOrders />} />
             <Route path='/user/conformation' element={<UserConformation />} />
 
-
-
           </Route>
 
 

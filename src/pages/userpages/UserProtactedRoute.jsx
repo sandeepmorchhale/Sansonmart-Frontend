@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import api from '../../api';
+import api from '../../../src/api';
 import { useEffect, useState } from "react";
 
 const UserProtactedRoute = () => {
@@ -8,12 +8,9 @@ const UserProtactedRoute = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      try {
-        await api.get(
-          "/api/user/userprotaction",
-          { withCredentials: true }
-        );
+      try { await api.get("/api/user/userprotaction",{ withCredentials: true });
         setIsUser(true);
+
       } catch (error) {
         setIsUser(false);
       } finally {

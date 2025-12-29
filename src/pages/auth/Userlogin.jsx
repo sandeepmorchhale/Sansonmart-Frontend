@@ -1,7 +1,5 @@
 import React from 'react';
-import api from '../../../src/api';
-
-
+import api from '../../api';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import '../../CSS/usercss/Userlogin.css';

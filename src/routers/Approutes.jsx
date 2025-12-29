@@ -35,6 +35,7 @@ const Approutes = () => {
 
           <Route element={<UserProtactedRoute />} >
 
+
             <Route path='/user/product' element={<UserProductPage />} />
             <Route path='/user/cart' element={<UserCart />} />
             <Route path='/user/chat' element={<UserChat />} />

@@ -1,0 +1,70 @@
+:root{
+  --earth-1: #f5efe6;
+  --earth-2: #f0dbc5;
+  --accent: #b76e25;
+  --accent-dark: #9b7655;
+  --muted: #6b5e4b;
+}
+
+.village-bg{
+  background: linear-gradient(180deg, var(--earth-1) 0%, #fff 100%);
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color: var(--muted);
+}
+
+.sidebar{
+  background: linear-gradient(180deg, #fff9f2 0%, var(--earth-2) 100%);
+  border: 1px solid rgba(139,79,26,0.08);
+}
+
+.avatar{
+  width: 72px;
+  height: 72px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 20%, #fff4e6, var(--accent));
+  color: #fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+
+.nav-link{
+  color: var(--accent-dark);
+  padding: .5rem .75rem;
+  border-radius: 6px;
+}
+
+.nav-link:hover{ background: rgba(183,110,37,0.07); color: var(--accent-dark); }
+
+.nav-link.active{ background: linear-gradient(90deg, rgba(183,110,37,0.12), rgba(138,79,26,0.06)); font-weight:600; }
+
+.listing-card, .marketplace-card{
+  border-left: 6px solid var(--accent);
+  box-shadow: 0 6px 18px rgba(139,79,26,0.05);
+}
+
+.form-control, .form-select, textarea{
+  border-radius: 8px;
+  border: 1px solid rgba(139,79,26,0.12);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+.btn-primary{
+  background: linear-gradient(180deg,var(--accent), var(--accent-dark));
+  border: none;
+  box-shadow: 0 6px 18px rgba(138,79,26,0.12);
+}
+
+.stat{ background: linear-gradient(180deg, #fff, #fff7f0); border: 1px solid rgba(139,79,26,0.06);} 
+.stat-value{ font-size: 1.25rem; font-weight:700; color:var(--accent-dark); }
+.stat-label{ font-size: .8rem; color:var(--muted); }
+
+.market-item{ background: linear-gradient(180deg,#fff,#fffaf5); border: 1px dashed rgba(139,79,26,0.08); }
+
+@media (max-width: 767px){
+  .avatar{ width:56px; height:56px }
+}

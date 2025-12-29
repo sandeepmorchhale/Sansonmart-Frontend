@@ -1,0 +1,51 @@
+.admin-login-wrapper {
+                        min-height: 100vh;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        /* Professional Slate Gradient Background */
+                        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+                    }
+
+                    .login-card {
+                        border: none;
+                        border-radius: 16px;
+                        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+                    }
+
+                    .icon-box {
+                        width: 70px;
+                        height: 70px;
+                        background: rgba(13, 110, 253, 0.1);
+                        color: #0d6efd;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin: 0 auto 1.5rem;
+                    }
+
+                    /* Floating Label Focus Color */
+                    .form-floating > .form-control:focus ~ label {
+                        color: #0d6efd;
+                    }
+                    .form-control:focus {
+                        border-color: #0d6efd;
+                        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+                    }
+
+                    .btn-admin-login {
+                        padding: 12px;
+                        font-weight: 600;
+                        letter-spacing: 0.5px;
+                        background-color: #0d6efd;
+                        border: none;
+                        transition: all 0.3s ease;
+                    }
+
+                    .btn-admin-login:hover {
+                        background-color: #0b5ed7;
+                        transform: translateY(-2px);
+                        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+                    }

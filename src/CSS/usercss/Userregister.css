@@ -1,0 +1,217 @@
+/* Userregister.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* --- DESKTOP STYLES --- */
+.modern-container {
+  background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px; /* Thoda padding taaki mobile par chipke na */
+}
+
+.main-box {
+  background-color: #fff;
+  border-radius: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+  position: relative;
+  overflow: hidden;
+  width: 900px;
+  max-width: 100%;
+  min-height: 550px;
+  display: flex;
+}
+
+/* LEFT SIDE: FORM */
+.form-section {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background: #fff;
+}
+
+.form-section form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.form-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Social Icons */
+.social-container {
+  margin: 10px 0;
+}
+.social-icon {
+  border: 1px solid #ccc;
+  border-radius: 20%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+  width: 40px;
+  height: 40px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.social-icon:hover {
+  background: #512da8;
+  color: white;
+  border-color: #512da8;
+}
+
+.sub-text {
+  font-size: 12px;
+  margin-bottom: 20px;
+  color: #666;
+  text-align: center;
+}
+
+/* Inputs */
+.form-section input {
+  background-color: #eee;
+  border: none;
+  margin: 8px 0;
+  padding: 12px 15px;
+  font-size: 13px;
+  border-radius: 8px;
+  width: 100%;
+  outline: none;
+}
+
+/* Register Button */
+.submit-btn {
+  background-color: #512da8;
+  color: #fff;
+  font-size: 12px;
+  padding: 12px 45px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%; /* Mobile par full width ke liye */
+  max-width: 200px;
+}
+.submit-btn:hover {
+  background-color: #311b92;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* RIGHT SIDE: TOGGLE (Welcome) */
+.toggle-section {
+  width: 40%;
+  background: linear-gradient(to right, #5c6bc0, #512da8);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 30px;
+  text-align: center;
+  border-radius: 0 0 0 100px; /* Stylish Curve */
+}
+
+.toggle-content h1 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.toggle-content p {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  margin-bottom: 15px;
+}
+
+.ghost-btn {
+  background-color: transparent;
+  border-color: #fff;
+  border: 1px solid #fff;
+  color: #fff;
+  font-size: 12px;
+  padding: 10px 45px;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.ghost-btn:hover {
+  background-color: #fff;
+  color: #512da8;
+}
+
+/* --- MOBILE RESPONSIVE CSS (Max Width 768px) --- */
+@media (max-width: 768px) {
+  .modern-container {
+    height: auto;
+    min-height: 100vh;
+    padding: 20px 10px;
+  }
+
+  .main-box {
+    flex-direction: column; /* Row se Column banaya */
+    width: 100%;
+    min-height: auto;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  }
+
+  /* Welcome Section (Toggle) - Upar aayega */
+  .toggle-section {
+    width: 100%;
+    height: auto;
+    padding: 40px 20px;
+    border-radius: 20px 20px 0 0; /* Curve hataya, sirf top rounded */
+    order: 1; /* Isko pehle dikhana hai */
+  }
+
+  .toggle-content h1 {
+    font-size: 1.8rem;
+  }
+
+  /* Form Section - Niche aayega */
+  .form-section {
+    width: 100%;
+    height: auto;
+    padding: 30px 20px;
+    order: 2; /* Isko baad mein dikhana hai */
+    border-radius: 0 0 20px 20px;
+  }
+
+  .form-title {
+    font-size: 1.8rem;
+  }
+
+  .form-section input {
+    margin: 10px 0;
+    padding: 15px; /* Thoda bada touch target mobile ke liye */
+  }
+}

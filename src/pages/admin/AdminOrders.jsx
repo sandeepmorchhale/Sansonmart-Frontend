@@ -39,7 +39,7 @@ const AdminOrders = () => {
     }
   };
 
-  // 2. Delete Function (With Backend status:true fix)
+  // 2. Delete Function
   const handleDelete = async (orderId) => {
     if (window.confirm("Are you sure you want to delete this order?")) {
       try {
@@ -47,7 +47,7 @@ const AdminOrders = () => {
           withCredentials: true 
         });
 
-        if (res.data.status === true) { 
+        if (res.data.status === true || res.data.success === true) { 
           toast.success(res.data.message);
           setOrders(prevOrders => prevOrders.filter(order => order._id !== orderId));
         }
@@ -56,9 +56,11 @@ const AdminOrders = () => {
       }
     }
   };
+
   // 3. Search Filter
   const filteredOrders = orders.filter(order =>
-    order.shippingAddress[0]?.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (order.shippingAddress && order.shippingAddress.length > 0 && order.shippingAddress[0]?.username?.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (order.shippingAddress?.username?.toLowerCase().includes(searchTerm.toLowerCase())) || 
     order._id.includes(searchTerm)
   );
 
@@ -106,76 +108,108 @@ const AdminOrders = () => {
                 <tr className="text-nowrap">
                   <th className="ps-4 py-3 text-muted small text-uppercase fw-bold">Order ID</th>
                   <th className="py-3 text-muted small text-uppercase fw-bold">Customer</th>
-                  <th className="py-3 text-muted small text-uppercase fw-bold">Email</th>
                   <th className="py-3 text-muted small text-uppercase fw-bold">Contact</th>
                   <th className="py-3 text-muted small text-uppercase fw-bold" style={{ width: '220px' }}>Address</th>
                   <th className="py-3 text-muted small text-uppercase fw-bold">Items Details</th>
-                  <th className="py-3 text-muted small text-uppercase fw-bold">Amount</th>
-                  <th className="py-3 text-muted small text-uppercase fw-bold">Status</th>
+                  <th className="py-3 text-muted small text-uppercase fw-bold">Amount & Payment</th>
+                  <th className="py-3 text-muted small text-uppercase fw-bold">Order Status</th>
                   <th className="py-3 text-muted small text-uppercase fw-bold text-center">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-white">
                 {filteredOrders.length > 0 ? (
-                  filteredOrders.map((order) => (
-                    <tr key={order._id}>
-                      <td className="ps-4">
-                        <code className="text-primary fw-bold">#{order._id.slice(-6).toUpperCase()}</code>
-                      </td>
-                      <td className="fw-bold text-dark">{order.shippingAddress[0]?.username}</td>
-                      <td className="small text-muted">{order.shippingAddress[0]?.email}</td>
-                      <td className="small text-muted">{order.shippingAddress[0]?.mobile}</td>
-                      <td>
-                        <div className="small text-muted" style={{ fontSize: '0.85rem', lineHeight: '1.4' }}>
-                          {order.shippingAddress[0]?.address}
-                        </div>
-                      </td>
-                      
-                      <td>
-                        <div className="d-flex flex-column gap-1" style={{ maxHeight: '120px', overflowY: 'auto', minWidth: '160px' }}>
-                          {order.orderItems.map((item, i) => (
-                            <div key={i} className="p-2 rounded bg-light border-bottom border-white shadow-sm" style={{ fontSize: '0.8rem' }}>
-                              <div className="fw-bold text-dark text-truncate" style={{ maxWidth: '140px' }}>{item.name}</div>
-                              <div className="text-primary fw-bold small">Qty: {item.quantity} | ₹{item.price}</div>
-                            </div>
-                          ))}
-                        </div>
-                      </td>
+                  filteredOrders.map((order) => {
+                    // Safe access for shipping address (handling array or object structure)
+                    const addressData = Array.isArray(order.shippingAddress) 
+                        ? order.shippingAddress[0] 
+                        : order.shippingAddress;
 
-                      <td className="fw-bold text-dark">₹{order.totalPrice.toLocaleString()}</td>
-                      <td>
-                        <span className={`badge rounded-pill px-3 py-2 w-100 ${
-                          order.status === 'Delivered' ? 'bg-success' :
-                          order.status === 'Shipped' ? 'bg-primary' :
-                          order.status === 'Cancelled' ? 'bg-danger' : 'bg-warning text-dark'
-                        }`}>
-                          {order.status || 'Processing'}
-                        </span>
-                      </td>
-                      <td className="pe-4">
-                        <div className="d-flex align-items-center gap-2 justify-content-center">
-                          <select
-                            className="form-select form-select-sm shadow-none border bg-light"
-                            style={{ width: '125px', borderRadius: '6px' }}
-                            value={order.status || 'Processing'}
-                            onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                          >
-                            <option value="Processing">Processing</option>
-                            <option value="Shipped">Shipped</option>
-                            <option value="Delivered">Delivered</option>
-                            <option value="Cancelled">Cancelled</option>
-                          </select>
-                          <button
-                            onClick={() => handleDelete(order._id)}
-                            className="btn btn-sm btn-outline-danger border-0 rounded-circle"
-                            title="Delete Order"
-                          >
-                            <i className="bi bi-trash3-fill"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
+                    return (
+                      <tr key={order._id}>
+                        <td className="ps-4">
+                          <code className="text-primary fw-bold">#{order._id.slice(-6).toUpperCase()}</code>
+                          <div className="small text-muted" style={{fontSize: '10px'}}>
+                              {new Date(order.createdAt).toLocaleDateString()}
+                          </div>
+                        </td>
+                        
+                        <td className="fw-bold text-dark">
+                            {addressData?.username || "Unknown"}
+                            <div className="small text-muted fw-normal">{addressData?.email}</div>
+                        </td>
+
+                        <td className="small text-muted">{addressData?.mobile}</td>
+                        
+                        <td>
+                          <div className="small text-muted" style={{ fontSize: '0.85rem', lineHeight: '1.4' }}>
+                            {addressData?.address}
+                          </div>
+                        </td>
+                        
+                        <td>
+                          <div className="d-flex flex-column gap-1" style={{ maxHeight: '120px', overflowY: 'auto', minWidth: '160px' }}>
+                            {order.orderItems.map((item, i) => (
+                              <div key={i} className="p-2 rounded bg-light border-bottom border-white shadow-sm" style={{ fontSize: '0.8rem' }}>
+                                <div className="fw-bold text-dark text-truncate" style={{ maxWidth: '140px' }}>{item.name}</div>
+                                <div className="text-primary fw-bold small">Qty: {item.quantity} | ₹{item.price}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </td>
+
+                        {/* --- PAYMENT STATUS SECTION --- */}
+                        <td>
+                          <div className="d-flex flex-column align-items-start">
+                              <span className="fw-bold text-dark fs-6">₹{order.totalPrice.toLocaleString()}</span>
+                              
+                              {/* Logic to show Badge */}
+                              {order.paymentStatus === "Paid" || order.isPaid ? (
+                                  <span className="badge bg-success  text-white border border-success rounded-pill mt-1 d-flex align-items-center gap-1" style={{fontSize: '10px'}}>
+                                      <i className="bi bi-check-circle-fill"></i> PAID ONLINE
+                                  </span>
+                              ) : (
+                                  <span className="badge bg-warning bg-opacity-10 text-dark border border-warning rounded-pill mt-1 d-flex align-items-center gap-1" style={{fontSize: '10px'}}>
+                                      <i className="bi bi-cash"></i> COD (Unpaid)
+                                  </span>
+                              )}
+                          </div>
+                        </td>
+
+                        <td>
+                          <span className={`badge rounded-pill px-3 py-2 w-100 ${
+                            order.status === 'Delivered' ? 'bg-success' :
+                            order.status === 'Shipped' ? 'bg-primary' :
+                            order.status === 'Cancelled' ? 'bg-danger' : 'bg-warning text-dark'
+                          }`}>
+                            {order.status || 'Processing'}
+                          </span>
+                        </td>
+
+                        <td className="pe-4">
+                          <div className="d-flex align-items-center gap-2 justify-content-center">
+                            <select
+                              className="form-select form-select-sm shadow-none border bg-light"
+                              style={{ width: '125px', borderRadius: '6px' }}
+                              value={order.status || 'Processing'}
+                              onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                            >
+                              <option value="Processing">Processing</option>
+                              <option value="Shipped">Shipped</option>
+                              <option value="Delivered">Delivered</option>
+                              <option value="Cancelled">Cancelled</option>
+                            </select>
+                            <button
+                              onClick={() => handleDelete(order._id)}
+                              className="btn btn-sm btn-outline-danger border-0 rounded-circle"
+                              title="Delete Order"
+                            >
+                              <i className="bi bi-trash3-fill"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
                 ) : (
                   <tr>
                     <td colSpan="9" className="text-center py-5 text-muted">No orders match your search results.</td>

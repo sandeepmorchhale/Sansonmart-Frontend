@@ -17,6 +17,7 @@ import AdminProtectedRoute from '../pages/admin/AdminProtectedRoute.jsx'
 import UserProtactedRoute from '../pages/userpages/UserProtactedRoute.jsx'
 import UserConformation from '../pages/userpages/UserConformation.jsx'
 
+
 const Approutes = () => {
   return (
 
@@ -31,6 +32,8 @@ const Approutes = () => {
           <Route path='/' element={<Homepage />} />
           <Route path='/user/register' element={<Userregister />} />
           <Route path='/user/login' element={<Userlogin />} />
+  
+
 
 
           <Route element={<UserProtactedRoute />} >

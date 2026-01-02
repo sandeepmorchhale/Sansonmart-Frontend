@@ -14,7 +14,6 @@ const UserOrders = () => {
         });
 
         if (res.data.success) {
-        
           setOrders(res.data.orders);
         }
       } catch (err) {
@@ -27,13 +26,14 @@ const UserOrders = () => {
     fetchOrders();
   }, []);
 
+  // Helper for Order Status (Shipping/Delivery)
   const getStatusClass = (status) => {
     switch (status) {
-      case 'Delivered': return 'bg-success  border border-success';
-      case 'Shipped': return 'bg-primary  border border-primary';
-      case 'Processing': return 'bg-warning  border border-warning';
-      case 'Cancelled': return 'bg-danger  border border-danger';
-      default: return 'bg-secondary border border-secondary';
+      case 'Delivered': return 'bg-success text-white';
+      case 'Shipped': return 'bg-primary text-white';
+      case 'Processing': return 'bg-warning text-dark';
+      case 'Cancelled': return 'bg-danger text-white';
+      default: return 'bg-secondary text-white';
     }
   };
 
@@ -82,23 +82,44 @@ const UserOrders = () => {
                       {/* Order Header */}
                       <div className="card-header bg-white border-bottom py-3 px-4">
                         <div className="row align-items-center">
-                          <div className="col-md-3 col-6 mb-2 mb-md-0">
+                          
+                          {/* Col 1: Order ID */}
+                          <div className="col-md-3 col-6 mb-3 mb-md-0">
                             <p className="text-muted small text-uppercase mb-0 fw-bold">Order ID</p>
                             <span className="fw-medium text-primary">#{order._id.slice(-8).toUpperCase()}</span>
                           </div>
-                          <div className="col-md-3 col-6 mb-2 mb-md-0 text-md-center">
-                            <p className="text-muted small text-uppercase mb-0 fw-bold">Date Placed</p>
+
+                          {/* Col 2: Date */}
+                          <div className="col-md-2 col-6 mb-3 mb-md-0 text-md-center">
+                            <p className="text-muted small text-uppercase mb-0 fw-bold">Date</p>
                             <span className="fw-medium text-dark">
                               {new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                             </span>
                           </div>
-                          <div className="col-md-3 col-6 text-md-center">
-                            <p className="text-muted small text-uppercase mb-0 fw-bold">Amount (COD)</p>
-                            <span className="fw-bold text-dark">₹{order.totalPrice}</span>
+
+                          {/* Col 3: Payment Status (UPDATED) */}
+                          <div className="col-md-4 col-12 mb-3 mb-md-0 text-md-center">
+                            <p className="text-muted small text-uppercase mb-1 fw-bold">Payment & Amount</p>
+                            <div className="d-flex align-items-center justify-content-md-center gap-2">
+                                <span className="fw-bold fs-5 text-dark">₹{order.totalPrice}</span>
+                                
+                                {/* Logic for Payment Badge */}
+                                {order.paymentStatus === 'Paid' || order.isPaid ? (
+                                    <span className="badge bg-success text-white border  rounded-pill px-2">
+                                        <i className="bi bi-check-circle-fill me-1"></i> Paid order
+                                    </span>
+                                ) : (
+                                    <span className="badge bg-secondary bg-opacity-10 text-dark border border-secondary rounded-pill px-2">
+                                        <i className="bi bi-cash me-1"></i> cash on Delivery
+                                    </span>
+                                )}
+                            </div>
                           </div>
-                          <div className="col-md-3 col-6 text-md-end">
+
+                          {/* Col 4: Order Status */}
+                          <div className="col-md-3 col-12 text-md-end">
                             <span className={`badge rounded-pill px-3 py-2 ${getStatusClass(order.status)}`}>
-                              ● {order.status || 'processing'}
+                              {order.status || 'Processing'}
                             </span>
                           </div>
                         </div>
@@ -120,7 +141,7 @@ const UserOrders = () => {
                               <div>
                                 <h6 className="fw-bold mb-1 text-dark">{item.name}</h6>
                                 <p className="mb-0 text-muted small">
-                                  Quantity: <span className="text-dark fw-medium">{item.quantity}</span> |
+                                  Qty: <span className="text-dark fw-medium">{item.quantity}</span> |
                                   Price: <span className="text-dark fw-medium">₹{item.price}</span>
                                 </p>
                               </div>
@@ -152,15 +173,19 @@ const UserOrders = () => {
 
                       {/* Address Footer */}
                       <div className="card-footer bg-white border-top-0 py-3 px-4">
-                        <div className="p-2 bg-light rounded-3 border-start border-primary border-4">
-                          <p className="mb-0 small text-muted">
-                            <i className="bi bi-house-door"></i>
-                            Delivering To: <span className="text-dark fw-medium">{order.shippingAddress?.address} <br />
-                            </span>
-                            <p>Contact Delar  : <b>7724977106</b></p>
-
-
-                          </p>
+                        <div className="p-2 bg-light rounded-3 border-start border-primary border-4 d-flex justify-content-between align-items-center flex-wrap">
+                          <div>
+                            <p className="mb-0 small text-muted">
+                                <i className="bi bi-house-door me-1"></i>
+                                Delivering To: <span className="text-dark fw-medium">{order.shippingAddress?.address}</span>
+                            </p>
+                          </div>
+                          <div className='mt-2 mt-md-0'>
+                                <p className="mb-0 small text-muted">
+                                    <i className="bi bi-telephone me-1"></i>
+                                    Support: <span className="text-dark fw-bold">7724977106</span>
+                                </p>
+                          </div>
                         </div>
                       </div>
 
